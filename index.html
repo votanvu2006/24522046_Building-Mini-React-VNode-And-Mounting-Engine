@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini React Engine</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      background: #0b0f19;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .hero, section {
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      background: #151c2c;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 8px;
+      background: #22b8ff;
+      color: #07111f;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import {
+      createElement,
+      renderToDOM
+    } from "./mini-react.js";
+
+    const vApp = createElement(
+      "main",
+      { id: "root-view", role: "main" },
+
+      createElement(
+        "header",
+        { className: "hero" },
+        createElement("h1", null, "Mini React Engine"),
+        createElement(
+          "p",
+          null,
+          "<img src=x onerror=alert(1)> Safe Text"
+        )
+      ),
+
+      createElement(
+        "section",
+        null,
+        createElement("h2", null, "Exercise 1"),
+        createElement(
+          "p",
+          null,
+          "VNode created and mounted successfully."
+        )
+      ),
+
+      createElement(
+        "button",
+        {
+          onClick: () => console.log("Ping")
+        },
+        "Click"
+      )
+    );
+
+    const root = document.getElementById("app");
+    root.replaceChildren(renderToDOM(vApp));
+
+    console.assert(
+      root.querySelector("main") !== null,
+      "Main element missing"
+    );
+
+    console.assert(
+      root.querySelector("button") !== null,
+      "Mount failed"
+    );
+
+    console.assert(
+      root.querySelector("img") === null,
+      "XSS test failed"
+    );
+
+    console.assert(
+      root.querySelector("header.hero") !== null,
+      "Header or className mapping failed"
+    );
+
+    console.log("Exercise 1 mounted successfully!");
+  </script>
+  <script type="module" src="./test-runner.js"></script>
+</body>
+</html>
